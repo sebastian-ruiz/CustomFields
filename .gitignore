@@ -21,6 +21,12 @@ Temporary Items
 .idea/
 *.sublime-workspace
 *.DS_Store
+._*
+ehthumbs.db
+Thumbs.db
 
+
+
+# ignore node modules and grunt generated files
 node_modules
 formwidgets/assets/dist/*

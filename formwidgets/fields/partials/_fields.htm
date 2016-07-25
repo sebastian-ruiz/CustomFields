@@ -1,9 +1,10 @@
 <div class="custom-fields">
     <?php
     if(isset($allCustomFields)) {
-        foreach ($allCustomFields as $customFields) {
+        foreach ($allCustomFields as $CustomFieldsName => $customFields) {
             $startRow = 0;
-            foreach ($customFields["fields"] as $field) {
+            foreach ($customFields["fields"] as $fieldName => $field) {
+                $field['id'] = $CustomFieldsName . '-' .$fieldName;
                 if(!array_key_exists("width", $field)) {
                     $field["width"] = 12;
                 }
@@ -12,53 +13,35 @@
                 }
                 $startRow += (int)$field["width"];
 
-                echo '<div class="col-sm-' . $field['width'] .'" form-group text-field span-full">';
-                if(array_key_exists("label", $field)){
-                    echo '<label>' . $field['label'] . '</label>';
-                }
+                echo '<div id="'. $field['id'] .'" class="col-sm-' . $field['width'] .' form-group '. $field['type'] .'-field span-full">';
+
                 if(array_key_exists("type", $field)){
                     switch($field['type']){
                         case "repeater":
-
-
-
+                            $this->fieldRepeater($field);
+                        break;
+                        case "dropdown":
+                            $this->fieldDropdown($field);
+                        break;
+                        case "checkbox":
+                            $this->fieldCheckbox($field);
+                        break;
+                        case "switch":
+                            $this->fieldSwitch($field);
+                        break;
+                        case "radio":
+                            $this->fieldRadio($field);
+                        break;
+                        case "checkboxlist":
+                            $this->fieldCheckboxlist($field);
                         break;
                         case "image":
-                            echo '<div class="field-mediafinder style-image-single is-image " data-control="mediafinder" data-disposable="">
-
-                                <!-- Find Button -->
-                                <a href="javascript:;" class="find-button">
-                                    <span class="find-button-icon oc-icon-image"></span>
-                                </a>
-
-                                <!-- Existing value -->
-                                <div class="find-object">
-                                    <div class="icon-container">
-                                        <img data-find-image="" src="" alt="">
-                                    </div>
-                                    <div class="info">
-                                        <h4 class="filename">
-                                            <span data-find-file-name=""></span>
-                                            <a href="javascript:;" class="find-remove-button">
-                                                <i class="icon-times"></i>
-                                            </a>
-                                        </h4>
-                                    </div>
-                                </div>
-
-                                <!-- Data locker -->
-                                <input type="hidden" name="settings[image]" id="Form-formPageb60415bb486b3eb849523d114f98317f5796371f301ec-field-settings-image" value="" data-find-value="">
-                            </div>';
-
+                            $this->fieldImage($field);
                         break;
                         case "text":
                         default:
-                            echo '<input type="text" name="" value="" class="form-control" />';
+                            $this->fieldText($field);
                     }
-                }
-
-                if(array_key_exists("comment", $field)){
-                    echo '<p class="help-block">' . $field["comment"] . '</p>';
                 }
                 echo '</div>';
 
