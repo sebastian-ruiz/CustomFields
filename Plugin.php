@@ -51,6 +51,19 @@ class Plugin extends PluginBase  {
                 'secondary'
             );
 
+            // hide code editor.
+            // TODO: create an option to trigger this in the settings
+            $replacable = [
+                'codeeditor', 'Eein\Wysiwyg\FormWidgets\Trumbowyg', 'richeditor', 'RainLab\Blog\FormWidgets\BlogMarkdown'
+            ];
+
+            foreach ($widget->getFields() as $field) {
+                if (!empty($field->config['type']) && in_array($field->config['type'], $replacable)) {
+                    $field->hidden = true;
+//                    return;
+                }
+            }
+
         });
     }
 }

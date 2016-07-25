@@ -30,13 +30,12 @@ class Fields extends FormWidgetBase
 
         $t->getYamlCustomFields();
         $this->vars['allCustomFields'] = $t->allCustomFields;
-        var_dump($this->vars['allCustomFields']);
-
     }
 
     public function loadAssets()
     {
-        
+        $this->addJs('/plugins/sruiz/customfields/formwidgets/assets/dist/app.min.js');
+        $this->addCss('/plugins/sruiz/customfields/formwidgets/assets/dist/app.css');
     }
 
 }

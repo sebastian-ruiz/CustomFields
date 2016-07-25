@@ -8,7 +8,7 @@ use Model;
 use Event;
 use File;
 use Yaml;
-
+use stdClass;
 
 /**
  * Model
@@ -16,9 +16,12 @@ use Yaml;
 
 class Target extends Model
 {
-    public $allCustomFields = [];
+    public $allCustomFields;
 
     public function getYamlCustomFields() {
+
+        if (!isset($this->allCustomFields))
+            $this->allCustomFields = new stdClass();
 
         $themeDir = Theme::getActiveTheme()->getDirName();
         $files = File::allFiles(themes_path($themeDir));
@@ -29,7 +32,8 @@ class Target extends Model
                 // Make sure the first line of file contains the words 'Custom Fields'.
                 if (strpos($openFile->getCurrentLine(), 'Custom Fields') !== false) {
                     $filePath = "themes" . str_replace(themes_path(), '', $file->getRealPath());
-                    $this->allCustomFields[] = Yaml::parseFile($filePath);
+                    $filename = str_replace(' ', '_', $file->getBasename('.'.$file->getExtension()));;
+                    $this->allCustomFields->$filename = Yaml::parseFile($filePath);
                 }
             }
         }

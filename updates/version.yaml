@@ -1,1 +1,4 @@
 1.0.1: First version of custom fields
+1.0.2:
+  - 'Created table sruiz_customfields_fields'
+  - table_create_sruiz_customfields_fields.php
